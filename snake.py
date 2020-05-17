@@ -1,5 +1,6 @@
 import pygame
 import random
+import time
 
 pygame.init()
 
@@ -61,8 +62,8 @@ while running:
     text = font.render('Score: ' + str(score), True, (255, 255, 255))
     win.blit(text, (0, 0))
 
+    
     # Drawing the food and the snake
-
     for x in snakeList:
         pygame.draw.rect(win, (0, 255, 0), (x[0], x[1], 25, 25))
 
@@ -79,11 +80,18 @@ while running:
 
     snakeList.append([snakeX, snakeY])
 
+    # Changing the x, y co-ordinates of the snake
     snakeX += sxChange
     snakeY += syChange
 
+    #If the snake ate an apple
     if not eat_apple:
         del snakeList[0]
+
+    #Checking if the snake touches itself
+    if len(snakeList) > 0:
+        if snakeList[0] in snakeList[1:]:
+            running = False
 
     pygame.display.update()
     clock.tick(60)
